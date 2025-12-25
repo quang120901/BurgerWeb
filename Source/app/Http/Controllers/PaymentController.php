@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class PaymentController extends Controller
 {
     function payment() {
-        return view('payment');
+        return view('frontend.payment');
     }
 
 

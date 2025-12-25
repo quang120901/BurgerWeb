@@ -70,12 +70,13 @@
                 <div class="widget">
                     <h6 class="title">Menu</h6>
                     <ul class="link">
-                        @if(Auth::check() && Auth::id() == 3)
+                        @if(Auth::check() && Auth::user()->isAdmin())
                         <li><a href="{{route('list_products_admin')}}">Danh sách món</a></li>
                         <li><a href="{{route('add_products')}}">Thêm món</a></li>
+                        <li><a href="{{route('manage_users')}}">Quản lý Users</a></li>
 
                         <li><a href="{{route('login')}}">Profile</a></li>
-                        @elseif(Auth::check() && Auth::id() != 3)
+                        @elseif(Auth::check())
                         <li><a href="{{route('products')}}">Thực đơn</a></li>
                         <li><a href="{{route('category', ['category'=>'burgers'])}}">Burgers</a></li>
                         <li><a href="{{route('category', ['category'=>'chicken'])}}">Sandwich gà</a></li>

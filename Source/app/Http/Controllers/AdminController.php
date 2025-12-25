@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\User;
 
 class AdminController extends Controller
 {
     function list_products_admin() {
         $products = Product::all();
-        return view('list_products_admin', compact('products'));
+        return view('admin.list_products', compact('products'));
     }
 
     function add_products() { 
-        return view('add_products');
+        return view('admin.add_product');
     }
 
 
@@ -36,7 +37,7 @@ class AdminController extends Controller
 
     public function edit_product($id) {
         $product = Product::find($id);
-        return view('edit_product', compact('product'));
+        return view('admin.edit_product', compact('product'));
     }
     
 
@@ -66,5 +67,35 @@ class AdminController extends Controller
 
         return redirect()->route('list_products_admin');
     }
+    }
+
+    // User Management
+    public function manage_users() {
+        $users = User::all();
+        return view('admin.manage_users', compact('users'));
+    }
+
+    public function update_user_role(Request $request, $id) {
+        $user = User::find($id);
+        
+        if ($user) {
+            $user->role = $request->input('role');
+            $user->save();
+            
+            return redirect()->route('manage_users')->with('success', 'Cập nhật quyền thành công!');
+        }
+        
+        return redirect()->route('manage_users')->with('error', 'Không tìm thấy user!');
+    }
+
+    public function delete_user($id) {
+        $user = User::find($id);
+        
+        if ($user && $user->id != auth()->id()) {
+            $user->delete();
+            return redirect()->route('manage_users')->with('success', 'Xóa user thành công!');
+        }
+        
+        return redirect()->route('manage_users')->with('error', 'Không thể xóa user này!');
     }
 }

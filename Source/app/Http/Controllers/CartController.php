@@ -10,7 +10,7 @@ class CartController extends Controller
 {
     //
     public function cart() {
-        return view('cart');
+        return view('frontend.cart');
     }
 
     public function add_to_cart(Request $request) {
@@ -57,7 +57,7 @@ class CartController extends Controller
             
             $this->calculateTotalCart($request);
 
-            return view('cart');
+            return view('frontend.cart');
 
         
         //neu khong co gio hang
@@ -90,7 +90,7 @@ class CartController extends Controller
 
 
             $this->calculateTotalCart($request);
-            return view('cart');
+            return view('frontend.cart');
         }
     }
 
@@ -108,7 +108,7 @@ class CartController extends Controller
             $this->calculateTotalCart($request);
         }
 
-        return view('cart');
+        return view('frontend.cart');
     }
 
     function calculateTotalCart(Request $request) {
@@ -160,14 +160,14 @@ class CartController extends Controller
         }
 
 
-        return view('cart');
+        return view('frontend.cart');
     }
 
 
 
     function checkout() {
 
-        return view('checkout');
+        return view('frontend.checkout');
     }
 
 
@@ -234,7 +234,7 @@ class CartController extends Controller
 
         $request->session()->put('order_id', $order_id);
 
-        return view('payment');
+        return view('frontend.payment');
 
         } else {
 

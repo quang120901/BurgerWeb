@@ -22,7 +22,7 @@ Route::get('/single_product/{id}', [BurgerwebController::class, 'single_product'
 
 
 Route::get('/about', function () {
-    return view('about');
+    return view('frontend.about');
 });
 
 
@@ -79,13 +79,20 @@ Route::get('/user_order_details/{id}', [BurgerwebController::class, 'user_order_
 Route::get('/payment', [PaymentController::class, 'payment'])->name('payment');
 
 
-Route::get('/list_products_admin', [AdminController::class, 'list_products_admin'])->name('list_products_admin');
-Route::get('/add_products', [AdminController::class, 'add_products'])->name('add_products');
-Route::post('/adding_product', [AdminController::class, 'adding_product'])->name('adding_product');
-Route::get('/edit_product', [AdminController::class, 'edit_product'])->name('edit_product');
-Route::get('/edit_product/{id}', [AdminController::class, 'edit_product'])->name('edit_product');
-Route::put('/edit_product/{id}', [AdminController::class, 'update_product'])->name('update_product');
-Route::delete('/edit_product/{id}', [AdminController::class, 'delete_product'])->name('delete_product');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/list_products_admin', [AdminController::class, 'list_products_admin'])->name('list_products_admin');
+    Route::get('/add_products', [AdminController::class, 'add_products'])->name('add_products');
+    Route::post('/adding_product', [AdminController::class, 'adding_product'])->name('adding_product');
+    Route::get('/edit_product', [AdminController::class, 'edit_product'])->name('edit_product');
+    Route::get('/edit_product/{id}', [AdminController::class, 'edit_product'])->name('edit_product');
+    Route::put('/edit_product/{id}', [AdminController::class, 'update_product'])->name('update_product');
+    Route::delete('/edit_product/{id}', [AdminController::class, 'delete_product'])->name('delete_product');
+    
+    // User Management Routes
+    Route::get('/manage_users', [AdminController::class, 'manage_users'])->name('manage_users');
+    Route::put('/update_user_role/{id}', [AdminController::class, 'update_user_role'])->name('update_user_role');
+    Route::delete('/delete_user/{id}', [AdminController::class, 'delete_user'])->name('delete_user');
+});
 
 
 Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
